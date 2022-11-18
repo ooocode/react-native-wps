@@ -1,6 +1,6 @@
 {
   "name": "react-native-wps",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "test",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -27,6 +27,7 @@
     "!**/.*"
   ],
   "scripts": {
+    "v": "yarn version --patch ",
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -35,6 +36,9 @@
     "example": "yarn --cwd example",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build",
     "bootstrap": "yarn example && yarn install && yarn example pods"
+  },
+  "bin": {
+    "updatern": "./lib/commonjs/scripts.js"
   },
   "keywords": [
     "react-native",
@@ -112,8 +116,7 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@react-native-community",
-      "prettier"
+      "@react-native-community"
     ],
     "rules": {
       "prettier/prettier": [
