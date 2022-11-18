@@ -1,6 +1,6 @@
 # react-native-wps
 
-1
+内部测试项目使用，请勿下载
 
 ## Installation
 
