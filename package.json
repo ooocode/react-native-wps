@@ -1,6 +1,6 @@
 {
   "name": "react-native-wps",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "test",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -54,7 +54,7 @@
   },
   "homepage": "https://github.com/ooocode/react-native-wps#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "http://localhost:8888/"
   },
   "devDependencies": {
     "@arkweid/lefthook": "^0.7.7",
@@ -113,35 +113,6 @@
         "preset": "angular"
       }
     }
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "@react-native-community"
-    ],
-    "rules": {
-      "prettier/prettier": [
-        "error",
-        {
-          "quoteProps": "consistent",
-          "singleQuote": true,
-          "tabWidth": 2,
-          "trailingComma": "es5",
-          "useTabs": false
-        }
-      ]
-    }
-  },
-  "eslintIgnore": [
-    "node_modules/",
-    "lib/"
-  ],
-  "prettier": {
-    "quoteProps": "consistent",
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "es5",
-    "useTabs": false
   },
   "react-native-builder-bob": {
     "source": "src",
