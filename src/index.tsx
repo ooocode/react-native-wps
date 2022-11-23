@@ -9,14 +9,20 @@ const LINKING_ERROR =
 const Wps = NativeModules.Wps
   ? NativeModules.Wps
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 
 export function multiply(a: number, b: number): Promise<number> {
   return Wps.multiply(a, b);
+}
+
+
+export async function PdfFiles(a: string) {
+  const res = await Wps.PdfFiles(a);
+  return res as string[]
 }

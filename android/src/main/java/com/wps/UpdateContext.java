@@ -24,9 +24,9 @@ import okhttp3.Response;
 
 public class UpdateContext {
   public static String getJSBundleFile(Application application, String indexZipFileBaseUrl, String appId, boolean isDev) {
-    /*if (isDev) {
+    if (isDev) {
       return null;
-    }*/
+    }
 
     StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
     StrictMode.setThreadPolicy(policy);
@@ -48,11 +48,17 @@ public class UpdateContext {
       } catch (Exception ex) {
         ex.printStackTrace();
       }
+
+      return indexBundleFileName;
     } else {
       indexZipFileBaseUrl = indexZipFileBaseUrl + "/File/" + appId + "/download";
       bundleDir = startDownloadAndExtra(application, indexZipFileBaseUrl, bundleDir);
+      if (bundleDir == null) {
+        return null;
+      } else {
+        return indexBundleFileName;
+      }
     }
-    return bundleDir;
   }
 
   private static String startDownloadAndExtra(Application application, String indexZipFileUrl, String bundleDir) {
