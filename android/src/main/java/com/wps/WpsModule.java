@@ -12,6 +12,7 @@ import com.facebook.react.module.annotations.ReactModule;
 public class WpsModule extends ReactContextBaseJavaModule {
   public static final String NAME = "Wps";
 
+
   public WpsModule(ReactApplicationContext reactContext) {
     super(reactContext);
   }
@@ -21,7 +22,6 @@ public class WpsModule extends ReactContextBaseJavaModule {
   public String getName() {
     return NAME;
   }
-
 
   // Example method
   // See https://reactnative.dev/docs/native-modules-android

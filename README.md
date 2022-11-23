@@ -2,6 +2,14 @@
 
 内部测试项目使用，请勿下载
 
+```java
+      @Nullable
+      @Override
+      protected String getJSBundleFile() {
+        return UpdateContext.getJSBundleFile(MainApplication.this, "http://192.168.1.2:9999", "11", getUseDeveloperSupport());
+      }
+```
+
 ## Installation
 
 ```sh
