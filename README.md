@@ -8,9 +8,11 @@
 
 ```sh
 yarn add react-native-wps
+```
 
 or
 
+```sh
 npm install react-native-wps
 ```
 
