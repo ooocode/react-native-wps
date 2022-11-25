@@ -1,4 +1,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.wps">
+  package="com.wps">
 
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+  <queries>
+    <package android:name="com.kingsoft.moffice_pro" />
+    <package android:name="cn.wps.moffice_eng" />
+  </queries>
+
+  <application>
+    <provider
+      android:name="androidx.core.content.FileProvider"
+      android:authorities="com.wpsexamplenew.fileprovider"
+      android:exported="false"
+      android:grantUriPermissions="true">
+      <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/file_provider_paths" />
+    </provider>
+  </application>
 </manifest>

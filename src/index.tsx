@@ -17,12 +17,8 @@ const Wps = NativeModules.Wps
     }
   );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return Wps.multiply(a, b);
-}
 
-
-export async function PdfFiles(a: string) {
-  const res = await Wps.PdfFiles(a);
-  return res as string[]
+export async function OpenReadonlyOfficeFileByWps(path: string, contentType: string) {
+  const res = await Wps.OpenReadonlyOfficeFileByWps(path, contentType);
+  return res
 }
