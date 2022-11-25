@@ -2,6 +2,20 @@
 
 内部测试项目使用，请勿下载
 
+
+
+## Installation
+
+```sh
+yarn add react-native-wps
+
+or
+
+npm install react-native-wps
+```
+
+## Usage
+
 ```java
       @Nullable
       @Override
@@ -10,21 +24,17 @@
       }
 ```
 
-## Installation
-
-```sh
-npm install react-native-wps
-```
-
-## Usage
-
 ```js
-import { multiply } from 'react-native-wps';
+import {  } from 'react-native-wps';
 
 // ...
 
-const result = await multiply(3, 7);
 ```
+
+//package.json
+
+ "bundle": "react-native bundle --platform android --entry-file index.js --bundle-output ./dist/index.android.bundle --assets-dest ./dist/ --dev false"
+
 
 ## Contributing
 
