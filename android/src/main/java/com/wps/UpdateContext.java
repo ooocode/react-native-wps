@@ -1,11 +1,18 @@
 package com.wps;
 
 import android.app.Application;
+import android.content.IntentFilter;
+import android.os.Build;
 import android.os.StrictMode;
 import android.provider.ContactsContract;
+import android.util.JsonReader;
 import android.util.Log;
 
+import com.facebook.react.bridge.JsonWriterHelper;
+
 import net.lingala.zip4j.ZipFile;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -23,7 +31,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class UpdateContext {
-  public static String getJSBundleFile(Application application, String indexZipFileBaseUrl, String appId, boolean isDev) {
+  public static String BundleVersion = "";
+
+  public static String getJSBundleFile(Application application, String indexZipFileBaseUrl, String appId,
+                                       boolean isDev) {
     if (isDev) {
       return null;
     }
@@ -32,16 +43,17 @@ public class UpdateContext {
     StrictMode.setThreadPolicy(policy);
 
     String cacheDir = application.getCacheDir().getPath();
-    String bundleDir = cacheDir + "/bundle";
+    String bundleDir = cacheDir + "/bundle/" + appId;
     String indexBundleFileName = bundleDir + "/index.android.bundle";
     File indexBundleFile = new File(indexBundleFileName);
 
     if (indexBundleFile.exists()) {
-      //存在bundle
+      // 存在bundle
       try {
         String versionTextPath = bundleDir + "/version.txt";
         Scanner sc = new Scanner(new FileReader(versionTextPath));
         String version = sc.nextLine();
+        BundleVersion = version;
 
         indexZipFileBaseUrl = indexZipFileBaseUrl + "/File/" + appId + "/download?version=" + version;
         startDownloadAndExtra(application, indexZipFileBaseUrl, bundleDir);
@@ -74,13 +86,19 @@ public class UpdateContext {
     return null;
   }
 
-
   private static String DownloadZip(Application application, String zipUrl) {
-    OkHttpClient client = new OkHttpClient();
+    //OkHttpClient client = new OkHttpClient();
+
+    OkHttpClient client = new OkHttpClient.Builder()
+      .connectTimeout(2, TimeUnit.SECONDS)
+      .writeTimeout(2, TimeUnit.SECONDS)
+      .readTimeout(2, TimeUnit.SECONDS)
+      .build();
+
+
     Request request = new Request.Builder()
       .url(zipUrl)
       .build();
-
 
     try (Response response = client.newCall(request).execute()) {
       if (response.code() == 204) {
@@ -94,7 +112,7 @@ public class UpdateContext {
       String dirPath = path + "/rnversions/";
       File dir = new File(dirPath);
       if (!dir.exists()) {
-        //创建目录
+        // 创建目录
         dir.mkdirs();
       }
 

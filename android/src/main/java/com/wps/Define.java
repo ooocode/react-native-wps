@@ -109,6 +109,15 @@ public class Define {
   public static final String BROAD_WPS_VIEWMODE_PLAY = "cn.wps.moffice.viewMode.play";
 //	boolean enter = extra.getBoolean(BROAD_WPS_VIEWMODE_PLAY, false);
 
+
+  public static class Reciver {
+    public static String ACTION_BACK = "com.kingsoft.writer.back.key.down";// 返回键广播
+    public static String ACTION_HOME = "com.kingsoft.writer.home.key.down";// Home键广播
+    public static String ACTION_SAVE = "cn.wps.moffice.file.save";// 保存广播
+    public static String ACTION_CLOSE = "cn.wps.moffice.file.close";// 关闭文件广播
+  }
+
+
   public static final String JSON_DATA =
     "[" +
       "{ \"name\" : \"cn.wps.moffice.client.OfficeServiceClient\"," +

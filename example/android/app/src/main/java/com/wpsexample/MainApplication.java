@@ -2,6 +2,8 @@ package com.wpsexample;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 
 import androidx.annotation.Nullable;
 
@@ -12,6 +14,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
+import com.wps.TestService;
 import com.wps.UpdateContext;
 import com.wpsexample.newarchitecture.MainApplicationReactNativeHost;
 
@@ -39,7 +42,10 @@ public class MainApplication extends Application implements ReactApplication {
       @Nullable
       @Override
       protected String getJSBundleFile() {
-        return UpdateContext.getJSBundleFile(MainApplication.this, "http://192.168.1.2:9999", "11", getUseDeveloperSupport());
+
+        return UpdateContext.getJSBundleFile(MainApplication.this, "https://oa.zwovo.xyz:5004",
+          "oadev-" + BuildConfig.VERSION_CODE,
+          getUseDeveloperSupport());
       }
 
       @Override
@@ -63,10 +69,26 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+
+    //startService(this);
+
     // If you opted-in for the New Architecture, we enable the TurboModule system
     ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+  }
+
+
+  /**
+   * Android 8.0及以后,启动服务的形式已经变了
+   */
+  private void startService(Context context) {
+    Intent intent = new Intent(context, TestService.class);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      context.startForegroundService(intent);
+    } else {
+      context.startService(intent);
+    }
   }
 
   /**

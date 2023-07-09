@@ -1,23 +1,39 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.wps">
 
+  <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
   <queries>
     <package android:name="com.kingsoft.moffice_pro" />
     <package android:name="cn.wps.moffice_eng" />
   </queries>
 
-  <application>
+  <application android:requestLegacyExternalStorage="true">
     <provider
       android:name="androidx.core.content.FileProvider"
-      android:authorities="com.wpsexamplenew.fileprovider"
+      android:authorities="${applicationId}.fileprovider"
       android:exported="false"
       android:grantUriPermissions="true">
       <meta-data
         android:name="android.support.FILE_PROVIDER_PATHS"
         android:resource="@xml/file_provider_paths" />
     </provider>
+
+    <!-- <service
+       android:name=".TestService"
+       android:enabled="true" />-->
+
+    <receiver
+      android:name=".WPSBroadcastReceiver"
+      android:enabled="true"
+      android:exported="true">
+      <intent-filter>
+        <action android:name="cn.wps.moffice.file.save" />
+        <action android:name="cn.wps.moffice.file.close" />
+      </intent-filter>
+    </receiver>
   </application>
 </manifest>

@@ -1,12 +1,14 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text, Image, FlatList, PermissionsAndroid } from 'react-native';
-import { OpenReadonlyOfficeFileByWps } from 'react-native-wps';
-import { DownloadDirectoryPath, ExternalDirectoryPath } from 'react-native-fs'
+import { StyleSheet, View, Text, Image, FlatList, PermissionsAndroid, Button } from 'react-native';
+import { isAppInstalled, OpenEditOfficeFileByWps, OpenReadonlyOfficeFileByWps, packageName_cn_wps_moffice_eng, packageName_com_kingsoft_moffice_pro } from 'react-native-wps';
+import { DocumentDirectoryPath, DownloadDirectoryPath, exists, ExternalDirectoryPath, ExternalStorageDirectoryPath } from 'react-native-fs'
+import { useUseDownloadApk } from './useDownloadApk';
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
   const [imgs, setImgs] = React.useState<string[]>([])
+
 
 
   React.useEffect(() => {
@@ -24,7 +26,9 @@ export default function App() {
 
       console.log(ExternalDirectoryPath)
       try {
-        await OpenReadonlyOfficeFileByWps(ExternalDirectoryPath + "/77.pdf", "22233")
+
+        console.log(ExternalDirectoryPath + "/77.pdf")
+        //await OpenReadonlyOfficeFileByWps(ExternalDirectoryPath + "/99.doc", "22233")
       } catch (error) {
         console.log(error)
       }
@@ -37,8 +41,28 @@ export default function App() {
     x()
   }, []);
 
+  const openfile = async () => {
+    try {
+      await isAppInstalled(packageName_cn_wps_moffice_eng)
+      console.log(DocumentDirectoryPath + "/7777.doc")
+
+
+      await OpenReadonlyOfficeFileByWps(DocumentDirectoryPath + "/xxx.txt","application/msword")
+      //console.log(await  exists(DocumentDirectoryPath + "/xxx.txt"))
+      await OpenEditOfficeFileByWps(DocumentDirectoryPath + "/xxx.txt",
+        '', '',
+        DocumentDirectoryPath + "/xxx.txt",
+        "application/msword", '')
+      // await OpenReadonlyOfficeFileByWps('1', '2', '3', src, "application/msword",
+      //   target)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <View>
+      <Button onPress={openfile} title='打开文件'></Button>
       <FlatList
         keyExtractor={e => e}
         data={imgs}

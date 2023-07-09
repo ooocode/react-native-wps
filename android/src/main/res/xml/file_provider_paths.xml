@@ -3,4 +3,7 @@
   <external-files-path
     name="name"
     path="." />
+  <root-path
+    name="myroot"
+    path="." />
 </paths>
