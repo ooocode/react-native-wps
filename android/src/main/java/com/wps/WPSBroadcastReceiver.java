@@ -6,12 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
 import com.facebook.react.ReactApplication;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.wps.activities.WpsErrorActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,15 +65,50 @@ public class WPSBroadcastReceiver extends BroadcastReceiver {
           @Override
           public void onFailure(Call call, IOException e) {
             e.printStackTrace();
+
+            intent.setClass(context, WpsErrorActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("isOk", false);
+            intent.putExtra("error-message", e.getMessage());
+            intent.putExtra("SavePath", SavePath);
+            context.startActivity(intent);
           }
 
           @Override
           public void onResponse(Call call, Response response) throws IOException {
-            Log.d("file", "onResponse: 文件上传成功");
+            if (response.isSuccessful()) {
+              /*intent.setClass(context, WpsErrorActivity.class);
+              intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+              intent.putExtra("isOk", true);
+              intent.putExtra("SavePath", SavePath);
+              context.startActivity(intent);*/
+              //Toast.makeText(context, "文件上传成功", Toast.LENGTH_SHORT).show();
+              Log.d("file", "onResponse: 文件上传成功");
+            } else {
+              intent.setClass(context, WpsErrorActivity.class);
+              intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+              intent.putExtra("isOk", false);
+
+              String body = response.body().string();
+              if (body.contains("code") && body.contains("message")) {
+                intent.putExtra("error-message", body);
+              } else {
+                intent.putExtra("error-message", response.message());
+              }
+
+              intent.putExtra("SavePath", SavePath);
+              context.startActivity(intent);
+            }
           }
         });
       } catch (Exception e) {
         e.printStackTrace();
+        intent.setClass(context, WpsErrorActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("isOk", false);
+        intent.putExtra("error-message", e.getMessage());
+        intent.putExtra("SavePath", SavePath);
+        context.startActivity(intent);
       }
 
             /*ReactContext ctx = reactApplication.getReactNativeHost().getReactInstanceManager().getCurrentReactContext();
