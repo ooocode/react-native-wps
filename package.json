@@ -107,7 +107,5 @@
       ]
     ]
   },
-  "dependencies": {
-    "react-native-wps": "^0.1.17"
-  }
+  "dependencies": {}
 }

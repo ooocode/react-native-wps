@@ -6525,18 +6525,6 @@ react-native-gradle-plugin@^0.70.3:
   resolved "https://registry.npmmirror.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.70.3.tgz#cbcf0619cbfbddaa9128701aa2d7b4145f9c4fc8"
   integrity sha512-oOanj84fJEXUg9FoEAQomA8ISG+DVIrTZ3qF7m69VQUJyOGYyDZmPqKcjvRku4KXlEH6hWO9i4ACLzNBh8gC0A==
 
-react-native-wps@^0.1.16:
-  version "0.1.16"
-  resolved "https://registry.npmjs.org/react-native-wps/-/react-native-wps-0.1.16.tgz#e0cb228c518aefc3f4815088c3f1b8f98ec52e88"
-  integrity sha512-X7aETEePN7DOWi46KAxsFGKXEEIN9Ybbvj2TCvAzz0u2FEjunYJS6ATMmcAwKuty4Ko+37GaxFA/9P7pX3r6HQ==
-
-react-native-wps@^0.1.17:
-  version "0.1.17"
-  resolved "https://registry.npmjs.org/react-native-wps/-/react-native-wps-0.1.17.tgz#442a61e799ad220b481281d80bda5ecc109817bd"
-  integrity sha512-yP9Xfc26YnuP3PI8nRGwDbRgKVYwL/dZknUuEREPguEXUcyuDr+VcZcRCDuXaj+XTwDKVNLZK2J99f6LfmjqlA==
-  dependencies:
-    react-native-wps "^0.1.16"
-
 react-native@0.70.6:
   version "0.70.6"
   resolved "https://registry.npmmirror.com/react-native/-/react-native-0.70.6.tgz#d692f8b51baffc28e1a8bc5190cdb779de937aa8"
