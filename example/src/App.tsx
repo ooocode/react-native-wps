@@ -1,17 +1,38 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text, Image, FlatList, PermissionsAndroid, Button, Alert } from 'react-native';
-import { isAppInstalled, OpenEditOfficeFileByWps, OpenReadonlyOfficeFileByWps, packageName_cn_wps_moffice_eng, packageName_com_kingsoft_moffice_pro } from 'react-native-wps';
+import { isAppInstalled, OpenEditOfficeFileByWps, OpenReadonlyOfficeFileByWps, packageName_cn_wps_moffice_eng, packageName_com_kingsoft_moffice_pro, registerMyTaskService, restartApp, startMyTaskService, stopMyTaskService } from 'react-native-wps';
 import { DocumentDirectoryPath, DownloadDirectoryPath, exists, ExternalDirectoryPath, ExternalStorageDirectoryPath } from 'react-native-fs'
 import { useUseDownloadApk } from './useDownloadApk';
+
+
+const sleep = (milliseconds: number) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+};
+
+registerMyTaskService(async (d) => {
+  let count = 0
+  while (true) {
+    console.log(new Date().toLocaleTimeString() + '   ' + 5555555)
+    console.log(d)
+    await sleep(1000)
+    count++
+    if (count > 10) {
+      //restartApp()
+    }
+  }
+})
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
   const [imgs, setImgs] = React.useState<string[]>([])
 
-
-
   React.useEffect(() => {
+    startMyTaskService({
+      qq: "123",
+      cc: "887"
+    })
+
     async function x() {
       let permission = await PermissionsAndroid.request('android.permission.WRITE_EXTERNAL_STORAGE')
       if (permission !== 'granted') {
@@ -63,7 +84,7 @@ export default function App() {
 
   return (
     <View>
-      <Button onPress={openfile} title='打开文件11'></Button>
+      <Button onPress={openfile} title='测试服务'></Button>
       <FlatList
         keyExtractor={e => e}
         data={imgs}

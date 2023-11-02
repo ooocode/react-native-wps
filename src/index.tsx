@@ -1,4 +1,4 @@
-import { NativeModules, Platform } from 'react-native';
+import { AppRegistry, NativeModules, Platform } from 'react-native';
 
 const LINKING_ERROR =
   `The package 'react-native-wps' doesn't seem to be linked. Make sure: \n\n` +
@@ -96,3 +96,35 @@ export const packageName_com_kingsoft_moffice_pro = 'com.kingsoft.moffice_pro'
  * WPS普通版包名
  */
 export const packageName_cn_wps_moffice_eng = 'cn.wps.moffice_eng'
+
+
+
+/**
+ * 重启App
+ */
+export const restartApp = () => {
+  Wps.restartApp()
+}
+
+
+/**
+ * 注册后台服务
+ */
+export const registerMyTaskService = (taskCallback: (bundle: Record<string, string>) => Promise<void>) => {
+  console.log("注册 registerMyTaskService")
+
+
+  const cb = async (bundle: any) => {
+    await taskCallback(bundle)
+  }
+
+  AppRegistry.registerHeadlessTask('MyTaskServiceName', () => cb);
+}
+
+export const startMyTaskService = (bundle: Record<string, string> = {}) => {
+  Wps.startMyTaskService(bundle)
+}
+
+export const stopMyTaskService = () => {
+  Wps.stopMyTaskService()
+}

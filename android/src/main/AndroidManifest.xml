@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.wps">
 
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
   <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -32,6 +33,13 @@
    android:name=".TestService"
    android:enabled="true" />
     -->
+
+    <service
+      android:name=".services.MyTaskService"
+      android:enabled="true"
+      android:exported="true" />
+
+
     <receiver
       android:name=".WPSBroadcastReceiver"
       android:enabled="true"
