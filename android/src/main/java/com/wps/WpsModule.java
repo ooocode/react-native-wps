@@ -1,6 +1,7 @@
 package com.wps;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
@@ -481,9 +482,9 @@ public class WpsModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void startMyTaskService(ReadableMap readableMap) {
-    ReactApplicationContext context = this.getReactApplicationContext();
+    Context context = this.getReactApplicationContext().getApplicationContext();
 
-    Intent service = new Intent(context, MyTaskService.class);
+    Intent intent = new Intent(context, MyTaskService.class);
     Bundle bundle = new Bundle();
 
     for (Iterator<Map.Entry<String, Object>> it = readableMap.getEntryIterator(); it.hasNext(); ) {
@@ -491,9 +492,13 @@ public class WpsModule extends ReactContextBaseJavaModule {
       bundle.putString(i.getKey(), i.getValue().toString());
     }
 
-    service.putExtras(bundle);
+    intent.putExtras(bundle);
 
-    context.startService(service);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      context.startForegroundService(intent);
+    } else {
+      context.startService(intent);
+    }
     HeadlessJsTaskService.acquireWakeLockNow(context);
   }
 

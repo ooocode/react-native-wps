@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text, Image, FlatList, PermissionsAndroid, Button, Alert } from 'react-native';
-import { isAppInstalled, OpenEditOfficeFileByWps, OpenReadonlyOfficeFileByWps, packageName_cn_wps_moffice_eng, packageName_com_kingsoft_moffice_pro, registerMyTaskService, restartApp, startMyTaskService, stopMyTaskService } from 'react-native-wps';
-import { DocumentDirectoryPath, DownloadDirectoryPath, exists, ExternalDirectoryPath, ExternalStorageDirectoryPath } from 'react-native-fs'
-import { useUseDownloadApk } from './useDownloadApk';
+import { StyleSheet, View, Image, FlatList, PermissionsAndroid, Button, Alert } from 'react-native';
+import { isAppInstalled, OpenEditOfficeFileByWps, packageName_cn_wps_moffice_eng, registerMyTaskService, startMyTaskService } from 'react-native-wps';
+import { DocumentDirectoryPath, ExternalDirectoryPath } from 'react-native-fs'
 
 
 const sleep = (milliseconds: number) => {
@@ -13,26 +12,25 @@ const sleep = (milliseconds: number) => {
 registerMyTaskService(async (d) => {
   let count = 0
   while (true) {
-    console.log(new Date().toLocaleTimeString() + '   ' + 5555555)
-    console.log(d)
+    console.log(new Date().toLocaleTimeString() + '   ' + count)
     await sleep(1000)
     count++
     if (count > 10) {
-      //restartApp()
+      break
+      //throw new Error('出错了')
     }
   }
 })
+
+/*startMyTaskService({
+  qq: "123",
+})*/
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
   const [imgs, setImgs] = React.useState<string[]>([])
 
   React.useEffect(() => {
-    startMyTaskService({
-      qq: "123",
-      cc: "887"
-    })
-
     async function x() {
       let permission = await PermissionsAndroid.request('android.permission.WRITE_EXTERNAL_STORAGE')
       if (permission !== 'granted') {
@@ -63,6 +61,11 @@ export default function App() {
   }, []);
 
   const openfile = async () => {
+    startMyTaskService({
+      qq: "123",
+    })
+    Alert.alert('启动成功')
+    return
     try {
       await isAppInstalled(packageName_cn_wps_moffice_eng)
       console.log(ExternalDirectoryPath + "/a.docx")

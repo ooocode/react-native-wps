@@ -1,7 +1,9 @@
 package com.wps.services;
 
 
+import android.app.Notification;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -16,14 +18,10 @@ public class MyTaskService extends HeadlessJsTaskService {
   protected @Nullable HeadlessJsTaskConfig getTaskConfig(Intent intent) {
     Bundle extras = intent.getExtras();
     if (extras != null) {
-      Log.d("TAG", "getTaskConfig");
-
       return new HeadlessJsTaskConfig("MyTaskServiceName",
         Arguments.fromBundle(extras),
-        Long.MAX_VALUE, // 后台任务的超时时间 5000
+        0,
         true
-        //retryPolicy
-        //false // 可选参数：是否允许任务在前台运行，默认为false
       );
     }
     return null;
@@ -33,7 +31,12 @@ public class MyTaskService extends HeadlessJsTaskService {
   public void onCreate() {
     super.onCreate();
     Log.d("MyService", "MyTaskService-onCreate");
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      Notification notification = NotificationUtils.showNotification(this, "后台服务", "运行中，请勿关闭......");
+      startForeground(1, notification);
+    }
   }
+
 
   @Override
   public void onDestroy() {

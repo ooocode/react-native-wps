@@ -2,10 +2,6 @@ package com.wpsexample;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-
-import androidx.annotation.Nullable;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
@@ -14,10 +10,10 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
-import com.wps.TestService;
-import com.wps.UpdateContext;
 import com.wpsexample.newarchitecture.MainApplicationReactNativeHost;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -39,14 +35,14 @@ public class MainApplication extends Application implements ReactApplication {
         return packages;
       }
 
-      @Nullable
+     /* @Nullable
       @Override
       protected String getJSBundleFile() {
 
         return UpdateContext.getJSBundleFile(MainApplication.this, "https://oa.zwovo.xyz:5004",
           "oadev-" + BuildConfig.VERSION_CODE,
           getUseDeveloperSupport());
-      }
+      }*/
 
       @Override
       protected String getJSMainModuleName() {
@@ -70,6 +66,10 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
 
+    if (requestRootAccess()) {
+      //executeRootCommand("ad");
+    }
+
     //startService(this);
 
     // If you opted-in for the New Architecture, we enable the TurboModule system
@@ -79,15 +79,32 @@ public class MainApplication extends Application implements ReactApplication {
   }
 
 
-  /**
-   * Android 8.0及以后,启动服务的形式已经变了
-   */
-  private void startService(Context context) {
-    Intent intent = new Intent(context, TestService.class);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      context.startForegroundService(intent);
-    } else {
-      context.startService(intent);
+  public boolean requestRootAccess() {
+    try {
+      Process process = Runtime.getRuntime().exec("su");
+      OutputStream outputStream = process.getOutputStream();
+      outputStream.write("echo \"root access granted\"".getBytes());
+      outputStream.flush();
+      outputStream.close();
+      int exitCode = process.waitFor();
+      return exitCode == 0;
+    } catch (IOException | InterruptedException e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
+
+  public void executeRootCommand(String command) {
+    try {
+      Process process = Runtime.getRuntime().exec("su");
+      OutputStream outputStream = process.getOutputStream();
+      outputStream.write(command.getBytes());
+      outputStream.flush();
+      outputStream.close();
+      process.waitFor();
+    } catch (IOException | InterruptedException e) {
+      e.printStackTrace();
     }
   }
 

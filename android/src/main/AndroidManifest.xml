@@ -28,17 +28,11 @@
         android:name="android.support.FILE_PROVIDER_PATHS"
         android:resource="@xml/file_provider_paths" />
     </provider>
-    <!--
-<service
-   android:name=".TestService"
-   android:enabled="true" />
-    -->
 
     <service
-      android:name=".services.MyTaskService"
+      android:name="com.wps.services.MyTaskService"
       android:enabled="true"
       android:exported="true" />
-
 
     <receiver
       android:name=".WPSBroadcastReceiver"
@@ -50,5 +44,4 @@
       </intent-filter>
     </receiver>
   </application>
-
 </manifest>
